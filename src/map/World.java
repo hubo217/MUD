@@ -10,6 +10,7 @@ public class World implements Runnable{
 	private transient Object ObjectLock = new Object();
 	private transient static World instance = new World();
 	
+	
 	public World(){
 		this.saveThread = new Thread(this);
 		this.saveThread.start();

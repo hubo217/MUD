@@ -1,9 +1,11 @@
 package abStract;
 
+import map.Room;
+
 public abstract class Item extends DataObject implements Comparable<Item>{
 //Item是物品的抽象类	
-	public Item(String name) {
-		super(name);
+	public Item(String name,String des) {
+		super(name,des);
 		// TODO Auto-generated constructor stub
 	}
 	public int id;
@@ -14,4 +16,5 @@ public abstract class Item extends DataObject implements Comparable<Item>{
 	public int HIT;//命中率
 	public int SPD;//速度
 	public int value;//价值
+	public Room room;
 }

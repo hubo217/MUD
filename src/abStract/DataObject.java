@@ -11,10 +11,9 @@ public abstract class DataObject implements DataItem {
 	private String description;
 
 
-	public DataObject(String name) {
+	public DataObject(String name,String des) {
 		this.setName(name.replaceAll(" ", "_"));
-
-		this.setDescription("ÄãÕý×ÐÏ¸µÄ¶ËÏê×Å:" + this.getName());
+		this.setDescription(des);
 	}
 
 	public String getName() {
@@ -53,4 +52,6 @@ public abstract class DataObject implements DataItem {
 		String result = this.getName() + ":" + this.getDataRef();
 		return result;
 	}
+
+
 }

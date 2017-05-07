@@ -3,8 +3,8 @@ package item;
 import abStract.Item;
 
 public class Weapon extends Item{
-	public Weapon(String name) {
-		super(name);
+	public Weapon(String name,String des) {
+		super(name,des);
 		// TODO Auto-generated constructor stub
 	}
 	public void setWeaponAttri(int ack,int def,int spd,int hit,int v){

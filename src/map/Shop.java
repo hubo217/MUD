@@ -7,11 +7,11 @@ import item.Money;
 
 public class Shop extends Room{
 
-	public Shop(int id, String name) {
-		super(id, name);
+	
+	public Shop(String name) {
+		super(name);
 		// TODO Auto-generated constructor stub
 	}
-	
 	public void sellItem(ArrayList<Item> i,Money money){
 		int num = i.size();
 		int val = i.get(0).value;
