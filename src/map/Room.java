@@ -13,8 +13,8 @@ public class Room extends DataObject{
 	private ArrayList<Item> itemList;
 	private ArrayList<Character> peopleList;
 	
-	public Room(String name,String des) {
-		super(name,des);
+	public Room(String name) {
+		super(name);
 		// TODO Auto-generated constructor stub
 	}
 

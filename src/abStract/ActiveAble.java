@@ -1,6 +1,5 @@
-package inter;
+package abStract;
 
-import abStract.Character;
 import map.Room;
 
 public interface ActiveAble {

@@ -1,6 +1,5 @@
 package abStract;
 
-import inter.ActiveAble;
 import item.Clothes;
 import item.Weapon;
 import map.Room;

@@ -4,8 +4,8 @@ import abStract.Item;
 
 public class Clothes extends Item{
 
-	public Clothes(String name,String des) {
-		super(name,des);
+	public Clothes(String name) {
+		super(name);
 		// TODO Auto-generated constructor stub
 	}
 
