@@ -30,6 +30,7 @@ public class Character extends DataObject implements ActiveAble{
 	public ItemList bag;
 	public Weapon weapon;
 	public Clothes clothes;
+	private boolean isFighting;
 	
 	public Character(String name,String des) {
 		super(name,des);
@@ -76,6 +77,11 @@ public class Character extends DataObject implements ActiveAble{
 	public void boundBag(ItemList il){
 		this.bag = il;
 	}
-
+	public void setIsFight(boolean b){
+		this.isFighting = b;
+	}
+	public boolean getIsFight(){
+		return this.isFighting;
+	}
 	
 }

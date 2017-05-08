@@ -63,7 +63,7 @@ public class Room extends DataObject{
 		if(this.peopleList.add(c)){
 			//判断是不是玩家
 			if(c instanceof Character){
-				c.sayToPlayer("我胡汉三又回来了！");
+				this.sayToRoom("我"+c.getName()+"又回来了");
 				this.refreshPeople();
 				return true;
 			}
@@ -107,6 +107,15 @@ public class Room extends DataObject{
 		this.connector.setRoom(dir, room);
 	}
 	
+	//
+	public boolean isPlayerInRoom(Player p){
+		for(Player player : this.playerList){
+			if(player.getName().equals(p.getName())){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	//
 	private void refreshPeople() {
