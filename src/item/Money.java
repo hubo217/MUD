@@ -5,21 +5,9 @@ import abStract.Item;
 public class Money extends Item{
 //钱是一般等价物，也属于物品
 
-	public Money(String name,int v) {
-		super(name);
+	public Money(String name,int v,String des) {
+		super(name,des);
 		super.value = v;
-	}
-	
-	public void useMoney(int v){
-		super.value = value - v;
-	}
-	
-	public void getMoney(int v){
-		super.value = value + v;
-	}
-	
-	public int showMoney(){
-		return super.value;
 	}
 
 	@Override
