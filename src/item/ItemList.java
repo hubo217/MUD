@@ -103,10 +103,15 @@ public class ItemList extends DataObject{
 		}
 		p.sayToPlayer(des);
 	}
-	
+	//
+	public ArrayList<Item> getItemList(){
+		return this.bag;
+	}
 	
 	public boolean giveItemToSb(String itemName,String otherName,ActiveAble active){
 		//ÎïÆ·ÔùËÍ
 		return false;
 	}
+	
+
 }

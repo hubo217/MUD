@@ -2,6 +2,7 @@ package abStract;
 
 import inter.ActiveAble;
 import item.Clothes;
+import item.ItemList;
 import item.Weapon;
 import map.Room;
 
@@ -26,6 +27,7 @@ public class Character extends DataObject implements ActiveAble{
 	//速度，影响攻击的顺序
 	public int SPD;
 	public int room_id;
+	public ItemList bag;
 	public Weapon weapon;
 	public Clothes clothes;
 	
@@ -64,7 +66,16 @@ public class Character extends DataObject implements ActiveAble{
 		
 	}
 
-
+	public int getRoomId(){
+		return this.room_id;
+	}
+	
+	public ItemList openBag(){
+		return this.bag;
+	}
+	public void boundBag(ItemList il){
+		this.bag = il;
+	}
 
 	
 }
