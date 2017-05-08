@@ -6,13 +6,14 @@ import java.util.HashMap;
 import abStract.Character;
 import abStract.DataObject;
 import abStract.Item;
+import core.Connector;
 import role.Player;
 
 public class Room extends DataObject{
 	private ArrayList<Room> roomList;
 	private ArrayList<Item> itemList;
 	private ArrayList<Character> peopleList;
-	
+	private Connector connector;
 	public Room(String name,String des) {
 		super(name,des);
 		// TODO Auto-generated constructor stub
@@ -20,16 +21,9 @@ public class Room extends DataObject{
 
 	private int id;
 	private String name;
-	private ArrayList<HashMap<String,Integer>> mapList;
+	
 
-	public void setMapList(int bei,int dong,int nan,int xi){
-		HashMap<String,Integer> map  = new HashMap<String,Integer>();
-		map.put("北", bei);
-		map.put("东", dong);
-		map.put("南", nan);
-		map.put("西", xi);
-		mapList.add(map);
-	}
+
 
 	@Override
 	public int getDatabaseRef() {
