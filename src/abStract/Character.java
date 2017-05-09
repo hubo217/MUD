@@ -83,5 +83,11 @@ public class Character extends DataObject implements ActiveAble{
 	public boolean getIsFight(){
 		return this.isFighting;
 	}
+
+	@Override
+	public void setPoint(int ack, int def, int hel, int str, int hit, int spd) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

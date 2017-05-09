@@ -15,5 +15,6 @@ public interface ActiveAble {
 	//使用物品
 	public void useItem(String name);
 	
-	//
-}
+	//设置人物属性
+	public void setPoint(int ack,int def,int hel,int str,int hit,int spd);
+}	

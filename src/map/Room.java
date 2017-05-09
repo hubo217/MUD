@@ -106,7 +106,9 @@ public class Room extends DataObject{
 	public void setConnectorDir(String dir,Room room){
 		this.connector.setRoom(dir, room);
 	}
-	
+	public Room getConnectorDir(String dir){
+		return this.connector.getRoom(dir);
+	}
 	//
 	public boolean isPlayerInRoom(Player p){
 		for(Player player : this.playerList){
