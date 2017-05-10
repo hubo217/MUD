@@ -23,11 +23,6 @@ public class Room extends DataObject{
 		this.playerList = new ArrayList<Player>();
 		this.peopleList = new ArrayList<Character>();
 	}
-	@Override
-	public int getDatabaseRef() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	//向房间添加物品
 	//如果是被丢弃在房间里的物品，则先修改物品的位置
 	public boolean addItem(Item i) {
@@ -52,7 +47,7 @@ public class Room extends DataObject{
 	public boolean addPlayer(Player p){
 		if(this.playerList.add(p)){
 			if(p instanceof Player){
-				this.refreshPlayer();
+//				refreshPlayer();
 				return true;
 			}
 		}
@@ -63,8 +58,8 @@ public class Room extends DataObject{
 		if(this.peopleList.add(c)){
 			//判断是不是玩家
 			if(c instanceof Character){
+//				refreshPeople();
 				this.sayToRoom("我"+c.getName()+"又回来了");
-				this.refreshPeople();
 				return true;
 			}
 		}
@@ -87,11 +82,9 @@ public class Room extends DataObject{
 	
 	//删除房间人物列表中的人物
 	public boolean removePeople(Character c){
-		c.setLocation(null);
 		return this.peopleList.remove(c);
 	}
 	public boolean removePlayer(Player p){
-		p.setLocation(null);
 		return this.playerList.remove(p);
 	}
 	
@@ -118,16 +111,13 @@ public class Room extends DataObject{
 		}
 		return false;
 	}
+	public ArrayList<Player> getPlayerList() {
+		return this.playerList;
+	}
 	
 	//
 	private void refreshPeople() {
 		for(Character c : this.peopleList){
-			Room r = (Room) World.
-					getWorld().
-					getDataObj(c.getRoomId());
-			r.removePeople(c);
-			c.setLocation(r);
-			r.addPeople(c);
 			for(Item i : c.openBag().getItemList()){
 				i = (Item) World.getWorld().getDataObj(i.getDatabaseRef());
 				i.setLocation(c);
@@ -139,12 +129,6 @@ public class Room extends DataObject{
 	
 	private void refreshPlayer() {
 		for(Player p : this.playerList){
-			Room r = (Room) World.
-					getWorld().
-					getDataObj(p.getRoomId());
-			r.removePlayer(p);
-			p.setLocation(r);
-			r.addPlayer(p);
 			for(Item i :  p.openBag().getItemList()){
 				i = (Item) World.getWorld().getDataObj(i.getDatabaseRef());
 				i.setLocation(p);

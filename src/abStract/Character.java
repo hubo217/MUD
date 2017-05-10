@@ -89,5 +89,17 @@ public class Character extends DataObject implements ActiveAble{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void pickUpItem(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addItem(Item i) {
+		// TODO Auto-generated method stub
+		this.bag.addItemInBag(i, this);
+	}
 	
 }

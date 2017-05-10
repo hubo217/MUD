@@ -8,5 +8,7 @@ public class NPC extends Character{
 		super(name, des);
 		// TODO Auto-generated constructor stub
 	}
-
+	public void addItem(){
+		
+	}
 }
