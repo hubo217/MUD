@@ -3,8 +3,7 @@ package item;
 import abStract.Item;
 
 public class Money extends Item{
-//钱是一般等价物，也属于物品
-
+//閽变篃搴旇灞炰簬鐗╁搧
 	public Money(String name,int v,String des) {
 		super(name,des);
 		super.value = v;

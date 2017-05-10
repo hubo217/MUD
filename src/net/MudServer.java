@@ -30,7 +30,7 @@ public class MudServer {
 				connect = serverSocket.accept();
 				client = new Client(connect,this);
 				MudServer.clientList.add(client);
-				Console.log("Ò»¸öĞÂÓÃ»§Á¬½ÓÁË");
+				Console.log("æœ‰å®¢æˆ·ç«¯è¿æ¥äº†");
 				client.start();
 				
 				outLineList.clear();

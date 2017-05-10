@@ -50,7 +50,6 @@ public class World implements Runnable{
 				if (justStarted) {
 					justStarted = false;
 				}
-				Console.log("ÊÀ½ç±»±£´æÁË");
 				Thread.sleep(100000);
 			}
 		} catch (InterruptedException e) {
@@ -61,7 +60,7 @@ public class World implements Runnable{
 	
 	private void saveWorld() {
 		this.lockThraed();
-		//±£´æÊý¾Ýµ½Êý¾Ý¿â
+			//ä¿å­˜ä¸–ç•Œçš„ä»£ç 
 		
 	}
 
@@ -69,7 +68,7 @@ public class World implements Runnable{
 		boolean re = this.databaseArray.add(o);
 		if(re){
 			o.setDatabaseRef((this.databaseArray.size()-1));
-			Console.log("ID:" + o.getDatabaseRef() + " " + o.getName() + "±»´´ÔìÁË");
+			Console.log("ID:" + o.getDatabaseRef() + " " + o.getName() + "è¢«åˆ›å»ºäº†");
 			return true;
 		}
 		return false;
@@ -80,7 +79,7 @@ public class World implements Runnable{
 	public void updateWorld(DataObject o,DataObject newO){
 		this.databaseArray.add(o.getDatabaseRef(), newO);
 	}
-	//±éÀúÊý¾ÝÊý×é£¬¸ù¾Ý¶ÔÏóidÕÒµ½¶ÔÏó
+	//æ ¹æ®idèŽ·å–å¯¹è±¡
 	public DataObject getDataObj(int objID){
 		for(DataObject doj : this.databaseArray){
 			if(doj.getDatabaseRef() == objID){
@@ -89,7 +88,7 @@ public class World implements Runnable{
 		}
 		return null;
 	}
-	//»ñµÃÊÀ½çµÄÊµÀý
+
 	public static World getWorld(){
 		return instance;
 	}
@@ -114,7 +113,6 @@ public class World implements Runnable{
 			return null;
 		}
 		Player p = new Player(name, des);
-		//Éú³ÉÊÀ½çµÄË³ÐòÊÇ ·¿¼ä->ÎïÆ·->npc->Íæ¼Ò
 		Room r = (Room) World.getWorld().getDataObj(0);
 		p.setLocation(r);
 		p.setRoomId(r.getDatabaseRef());
@@ -156,7 +154,7 @@ public class World implements Runnable{
 		}
 		i.setLocation(location);
 	}
-	//Ïß³ÌËø
+	//çº¿ç¨‹
 	public void lockThraed(){
 		this.threadLock = true;
 	}

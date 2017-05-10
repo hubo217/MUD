@@ -6,10 +6,13 @@ import abStract.Item;
 import item.ItemList;
 import map.Room;
 import map.World;
+import net.Client;
 
 public class Player extends Character{
 	private Player player;
+	private String designationRank;
 	private String password;
+	private Client client;
 	public Player(String name,String des) {
 		super(name, des);
 		// TODO Auto-generated constructor stub
@@ -30,5 +33,10 @@ public class Player extends Character{
 //	public void reBirth(){
 //		player.setLocation(World.getWorld().getDataObj(0));
 //	}
+
+	public void setClient(Client c) {
+		this.client = c;
+		
+	}
 
 }

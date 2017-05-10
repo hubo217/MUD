@@ -8,53 +8,15 @@ public class God {
 		this.buildWorld();
 	}
 	private void buildWorld() {
-		Room r0 = world.createRoom("×ÛºÏ°æ",
-				"×ÛºÏ°æÊÇaµº´óÂ½µÄÖĞĞÄ£¬´åÃñ·Ê·ÊÔÚÕâÀïÎŞ¾ĞÎŞÊøµÄÉú»î×Å");
-		Room r1 = world.createRoom("×ÛºÏ¶ş",
-				"×ÛºÏ¶şÔ­À´ÊÇaµº´óÂ½µÄ×î´ó³ÇÊĞ£¬µ«ÔÚÒ»´ÎÌìÔÖºó³ÁÈëÁË´óº£");
-		Room r2 = world.createRoom("»¶ÀÖ¶ñ¸ã",
-				"'À´ÅÜÍÅ°É'£¬ÓÂÊ¿ÃÇËµµÀ£¬ËûÃÇÊÇ×î°ôµÄÕ½Ê¿£¡");
-		Room r3 = world.createRoom("ÍôĞÇ±¤",
-				"¹·Í·ÈËÔÚÕâÆ¬ºÚ°µµÄ´óÂ½ÉÏ¼´Ê¹ÁÔÈËÒ²ÊÇÁÔÎï");
-		Room r4 = world.createRoom("Å®×°Èºµº",
-				"Å®×°ÈºµºÉÏµ½´¦¶¼ÊÇĞÅ·îÂ·Î÷·¨µÄĞ°½ÌÍ½");
-		Room r5 = world.createRoom("ËÙ±¨É½Âö",
-				"ÎÒ¿´Õâ´óÇå¹úÊÇ³ÙÔçÒªÍæ°¡");
-		Room r6 = world.createRoom("ÍÆÀí", "ÍÆÄãÂé±Ô£¡");
-		Room r7 = world.createRoom("ß÷Å«¹²ºÍ¹ú", 
-				"ÕâÀïµÄÍ³ÖÎÕßËÆºõÊÇÃ¨£¿ËûÃÇºÍ¹·ĞÇ±¤ÊÇµĞ¶ÔÄØ");
-		Room r8 = world.createRoom("ÂëÅ©Éñ½ç",
-				"ÕâÀïÒş¾Ó×ÅÖÚ¶à´´ÊÀÉñ");
-		Room r9 = world.createRoom("½ãÃÃ",
-				"µÎµÎµÎµÎµÎµÎµÎµÎ£¡");
-		Room r10 = world.createRoom("È¦ÄÚ",
-				"ÆäÊµÕâ¸ö×Ö¶Ájuan");
-		Room r11 = world.createRoom("Öµ°àÊÒ",
-				"Èç¹û¼¼Êõ°æÊÇÉñ½ç£¬ÄÇÃ´Öµ°àÊÒ¾ÍÊÇÕÆ¹ÜÉúËÀµÄµØ¸®");
-		r0.setConnectorDir("±±", r2);
-		r0.setConnectorDir("¶«", r3);
-		r0.setConnectorDir("ÄÏ", r4);
-		r0.setConnectorDir("Î÷", r5);
-		r0.setConnectorDir("Ë®ÏÂ", r1);
-		r1.setConnectorDir("µØÉÏ", r0);
-		r2.setConnectorDir("ÄÏ", r0);
-		r2.setConnectorDir("¶«", r6);
-		r3.setConnectorDir("Î÷", r0);
-		r3.setConnectorDir("¶«", r7);
-		r4.setConnectorDir("±±", r0);
-		r4.setConnectorDir("Éñ½ç", r8);
-		r4.setConnectorDir("ÄÏ", r9);
-		r5.setConnectorDir("¶«", r0);
-		r5.setConnectorDir("ÄÏ", r10);
-		r6.setConnectorDir("Î÷", r2);
-		r7.setConnectorDir("Î÷", r3);
-		r8.setConnectorDir("ÈË¼ä", r4);
-		r9.setConnectorDir("±±", r4);
-		r10.setConnectorDir("±±", r5);
-		r10.setConnectorDir("ÄÏ", r11);
-		r11.setConnectorDir("Öµ°àÊÒ", r10);
+		Room r0 = world.createRoom("ç»¼åˆå°é•‡",
+				"");
+		Room r1 = world.createRoom("å†œç”°",
+				"");
+
+		r0.setConnectorDir("åŒ—", r1);
+		r1.setConnectorDir("å—", r0);
 		
-		
+		Player p = world.createPlayer("åˆ˜å¾·å", "å¸…é€¼");
 		
 		
 	}

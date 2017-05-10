@@ -21,9 +21,9 @@ public class BattleField implements ActionListener {
 		this.attackerOne = one;
 		this.attackerTwo = two;
 		((Room) this.attackerOne.getLocation()).sayToRoom(attackerOne.getName() 
-				+ "Ïò"
+				+ "å‘"
 				+ attackerTwo.getName()
-				+ "·¢ÆğÁË¹¥»÷");
+				+ "å‘èµ·äº†è¿›æ”»");
 		this.attackerOne.setIsFight(true);
 		this.attackTimerOne = new Timer(1000, this);
 		this.attackTimerOne.start();
@@ -37,7 +37,7 @@ public class BattleField implements ActionListener {
 			return false;
 		}
 		/*
-		*²Å´Ë´¦µÄÌõ¼ş»¹ĞèÒª¸ü¶à¸Ä½ø
+		*
 		*/
 		return true;
 	}

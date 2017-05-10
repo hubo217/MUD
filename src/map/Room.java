@@ -23,8 +23,7 @@ public class Room extends DataObject{
 		this.playerList = new ArrayList<Player>();
 		this.peopleList = new ArrayList<Character>();
 	}
-	//Ïò·¿¼äÌí¼ÓÎïÆ·
-	//Èç¹ûÊÇ±»¶ªÆúÔÚ·¿¼äÀïµÄÎïÆ·£¬ÔòÏÈĞŞ¸ÄÎïÆ·µÄÎ»ÖÃ
+	//å‘æˆ¿é—´æ·»åŠ ç‰©å“
 	public boolean addItem(Item i) {
 		if(i.getLocation() != null){
 			if(i.getLocation() instanceof Room){
@@ -34,8 +33,7 @@ public class Room extends DataObject{
 		i.setLocation(this);
 		return itemList.add(i);
 	}
-	//Ïò·¿¼äÌí¼Ó·¿¼ä
-	//
+	//å‘æˆ¿é—´å†æ·»åŠ æˆ¿é—´
 	public boolean addRoom(Room r){
 		if(r.getLocation() != null){
 			((Room) r.getLocation()).removeRoom(r);
@@ -53,13 +51,12 @@ public class Room extends DataObject{
 		}
 		return false;
 	}
-	//Ïò·¿¼äÈËÎï(Íæ¼Ò/NPC)ÁĞ±íÌí¼ÓÈËÎï
+	//æ·»åŠ ä»»åŠ¡
 	public boolean addPeople(Character c){
 		if(this.peopleList.add(c)){
-			//ÅĞ¶ÏÊÇ²»ÊÇÍæ¼Ò
+			
 			if(c instanceof Character){
 //				refreshPeople();
-				this.sayToRoom("ÎÒ"+c.getName()+"ÓÖ»ØÀ´ÁË");
 				return true;
 			}
 		}
@@ -67,20 +64,20 @@ public class Room extends DataObject{
 	}
 
 
-	//É¾³ı·¿¼äÎïÆ·ÁĞ±íÖĞµÄÎïÆ·
+	//ä»æˆ¿é—´åˆ é™¤ç‰©å“
 	public boolean removeItem(Item i) {
 		// TODO Auto-generated method stub
 		i.setLocation(null);
 		return this.itemList.remove(i);
 	}
 	
-	//É¾³ı·¿¼ä·¿¼äÁĞ±íÖĞµÄ·¿¼ä
+	//åˆ é™¤æˆ¿é—´
 	public boolean removeRoom(Room r){
 		r.setLocation(null);
 		return this.roomList.remove(r);
 	}
 	
-	//É¾³ı·¿¼äÈËÎïÁĞ±íÖĞµÄÈËÎï
+	//åˆ é™¤äººç‰©
 	public boolean removePeople(Character c){
 		return this.peopleList.remove(c);
 	}
@@ -88,21 +85,21 @@ public class Room extends DataObject{
 		return this.playerList.remove(p);
 	}
 	
-	//¶Ô·¿¼äÀïËùÓĞµÄÍæ¼Ò½øĞĞº°»°
+	//å–Šè¯
 	public void sayToRoom(String context){
 		for(Player p : this.playerList){
 			p.sayToPlayer(context);
 		}
 	}
 	
-	//ÉèÖÃ·¿¼äÁ¬½ÓÆ÷
+	//è®¾ç½®è¿æ¥å™¨
 	public void setConnectorDir(String dir,Room room){
 		this.connector.setRoom(dir, room);
 	}
 	public Room getConnectorDir(String dir){
 		return this.connector.getRoom(dir);
 	}
-	//
+	//åˆ¤æ–­æŸä¸ªç©å®¶æ˜¯å¦åœ¨æˆ¿é—´ä¸­ï¼šattackæ–¹æ³•éœ€è¦
 	public boolean isPlayerInRoom(Player p){
 		for(Player player : this.playerList){
 			if(player.getName().equals(p.getName())){

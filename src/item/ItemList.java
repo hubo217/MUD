@@ -12,11 +12,11 @@ import map.Room;
 import role.Player;
 
 public class ItemList extends DataObject{
-	//ÎïÆ·×î´ó´æ·ÅÊı
+	//èƒŒåŒ…å„è‡ª
 	private int maxSize;
-	//ÎïÆ·ÁĞ±í
+	//åŒ…
 	private ArrayList<Item> bag;
-	//ÎïÆ·À¸×´Ì¬
+	//×´
 	private boolean isFull;
 	
 	public ItemList(String name,String des,int maxSize,boolean ifFull) {
@@ -25,7 +25,7 @@ public class ItemList extends DataObject{
 		this.bag = new ArrayList<Item>();
 		this.isFull = ifFull;
 	}
-//ÎïÆ·À¸
+
 
 	@Override
 	public int getDatabaseRef() {
@@ -35,18 +35,18 @@ public class ItemList extends DataObject{
 	public int getMaxSize(){
 		return this.maxSize;
 	}
-	//ÉèÖÃ±³°ü×î´óÊı
+	//è®¾ç½®æœ€å¤§èƒŒåŒ…æ ¼å­
 	public void setMaxSize(int m){
 		this.maxSize = m;
 	}
 	public boolean isFull(){
 		return this.isFull;
 	}
-	//ÉèÖÃ±³°üËø¶¨
+
 	public void setIsFull(boolean b){
 		this.isFull = b;
 	}
-	//ÎïÆ·±éÀú
+	//é€šè¿‡ç‰©å“åå­—æ‰¾åˆ°ç‰©å“
 	public Item getItemByName(String name){
 		for(Item item : this.bag){
 			String itemName = item.getName();
@@ -56,33 +56,33 @@ public class ItemList extends DataObject{
 		}
 		return null;
 	}
-	//Ö»ÓĞÒ»¸öÎïÆ·µÄÇé¿ö
+	//æŠŠç‰©å“æ”¾å…¥èƒŒåŒ…ä¸­
 	public boolean addItemInBag(Item i,ActiveAble active){
 		if(isFull() || this.bag.size() == this.maxSize){
-			active.sayToPlayer("ÄãµÄ°üÂúÁË");
+			active.sayToPlayer("ï¿½ï¿½Ä°ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return false;
 		}else{
 			this.bag.add(i);
-			active.sayToPlayer("Äã½«"+i.getName()+"·ÅÈëÁË±³°ü");
+			active.sayToPlayer("ï¿½ã½«"+i.getName()+"ï¿½ï¿½ï¿½ï¿½ï¿½Ë±ï¿½ï¿½ï¿½");
 			return true;
 		}
 	}
 
-	//¶à¸öÎïÆ·µÄÇé¿ö
+	//æŠŠå¤šä¸ªç‰©å“æ”¾å…¥èƒŒåŒ…ä¸­
 	public boolean addItemInBag(ArrayList<Item> i,ActiveAble active){
 		if(isFull() || this.bag.size() == this.maxSize){
-			active.sayToPlayer("ÄãµÄ°üÂúÁË");
+			active.sayToPlayer("ï¿½ï¿½Ä°ï¿½ï¿½ï¿½ï¿½ï¿½");
 			return false;
 		}else{
 			for(int n = 0;n < i.size();n++){
 			this.bag.add(i.get(n));
 			}
-			active.sayToPlayer("Äã½«"+i.size()+"¸ö"+i.get(0).getName()+"·ÅÈëÁË±³°ü");
+			active.sayToPlayer("ï¿½ã½«"+i.size()+"ï¿½ï¿½"+i.get(0).getName()+"ï¿½ï¿½ï¿½ï¿½ï¿½Ë±ï¿½ï¿½ï¿½");
 			return true;
 		}
 	}
 
-	//ÎïÆ·Å×Æú
+	//ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 	public boolean throwItem(String itemName,Room room,ActiveAble active){
 		Item tmp = getItemByName(itemName);
 		if(this.bag.remove(tmp)){
@@ -92,13 +92,13 @@ public class ItemList extends DataObject{
 		return false;
 	}
 
-	//ÎïÆ·²é¿´
+	//ï¿½ï¿½Æ·ï¿½é¿´
 	public void checkItem(Player p){
-		String des = "Äã´ò¿ªÁË±³°ü£¬½øĞĞÁËÒ»·¬ËÑË÷\n\r";
+		String des = "";
 		if(!this.bag.isEmpty()){
 			Collections.sort(this.bag);
 			for(Item i : this.bag){
-				des += "ÄãÌÍ³öÁË" + i.getName() + ":" +i.getDescription() + "\n\r";
+				des += i.getName() + ":" +i.getDescription() + "\n\r";
 			}
 		}
 		p.sayToPlayer(des);
@@ -109,7 +109,7 @@ public class ItemList extends DataObject{
 	}
 	
 	public boolean giveItemToSb(String itemName,String otherName,ActiveAble active){
-		//ÎïÆ·ÔùËÍ
+		//ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 		return false;
 	}
 	
