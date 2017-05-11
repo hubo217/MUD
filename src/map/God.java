@@ -16,7 +16,6 @@ public class God {
 		r0.setConnectorDir("北", r1);
 		r1.setConnectorDir("南", r0);
 		
-		Player p = world.createPlayer("刘德华", "帅逼");
 		
 		
 	}

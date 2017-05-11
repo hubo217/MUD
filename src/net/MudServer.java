@@ -30,7 +30,7 @@ public class MudServer {
 				connect = serverSocket.accept();
 				client = new Client(connect,this);
 				MudServer.clientList.add(client);
-				Console.log("有客户端连接了");
+				Console.log(connect.getInetAddress()+"客户端连接了");
 				client.start();
 				
 				outLineList.clear();
