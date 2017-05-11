@@ -23,32 +23,34 @@ public class Client implements Runnable{
 	private OutputStream output;
 	private InputStream input;
 	private Player player;
-	private MudServer server;
 	private Speaker speaker;
 	private boolean passwordConfirmed = false;
 	private int state;
-	public Client(Socket connect, MudServer mudServer) {
+	public Client(Socket connect) {
 		this.socket = connect;
-		this.server = mudServer;
+		this.speaker = Speaker.getSpeaker();
 	}
 
 	@Override
 	public void run() {
 		try{
 			while( this.state != Console.OVER ){
-				synchronized (input) {
-					
+				synchronized (speaker.getWorld().getObjectLock()) {
+					while(speaker.getWorld().getThreadLock()){
+						try{
+							speaker.getWorld().getObjectLock().wait();
+						}catch (Exception e) {
+							// TODO: handle exception
+						}
+					}
 				}
 				if( this.state == Console.INIT ){
 					//开始界面
 					this.init();
 				}else if( this.state == Console.PLAY ){
 					//游戏界面
-					String order = this.receiveFrom();
 					//处理命令
-					
-					//返回信息
-					this.sendReply( order + "\n\r" );
+					this.orderHandler();
 				}
 			}
 		}catch (Exception e) {
@@ -78,6 +80,9 @@ public class Client implements Runnable{
 //设置状态
 	public void setState(int v){
 		this.state = v;
+	}
+	public Player getPlayer(){
+		return this.player;
 	}
 //将字符串发送
 	public void sendReply(String content) {
@@ -140,7 +145,7 @@ public class Client implements Runnable{
 				password = receiveFrom().trim();
 			}
 			//验证
-			if(true){
+			if(username.equals("test") && password.equals("test")){
 				this.sendReply("登录成功\n\r");
 				//读取玩家、创建玩家
 				Player p = World.getWorld().createPlayer("test", "test");
@@ -151,19 +156,43 @@ public class Client implements Runnable{
 				this.sendReply(p.getName() + "从梦中醒来！新的一天开始了\n\r"
 						+"这里是"+((Room)p.getLocation()).getName()+"\n\r");
 				return;
+			}else if(username.equals("test2") && password.equals("test2")){
+				this.sendReply("登录成功\n\r");
+				//读取玩家、创建玩家
+				Player p = World.getWorld().createPlayer("test2", "test2");
+				this.state = Console.PLAY;
+				this.passwordConfirmed = true;
+
+				//游戏开始
+				this.sendReply(p.getName() + "从梦中醒来！新的一天开始了\n\r"
+						+"这里是"+((Room)p.getLocation()).getName()+"\n\r");
+				return;				
 			}else{
 				this.sendReply("(つд⊂)用户名或密码错误\n\r");
 			}
 		}
 	}
+//
+	private void orderHandler(){
+		String str;
+		str = receiveFrom().trim();
+		if(str.equals("quit")){
+			this.close();
+		}else if(str.toLowerCase().indexOf("say") == 0){
+			MudServer.sayToClients("<世界>"+player.getName()+":"+str.substring(3)+"\n\r");
+		}else{
+			this.sendReply("没听懂你在说啥=A=\n\r");
+		}
+	}
+	
 //关闭客户端连接
 	public void close(){
+		this.sendReply("你已成功下线");
 		this.state = Console.OVER;
 		Client c = this;
 		MudServer.getClientList().remove(this);
 		if(c != null){
 			if(c.player != null){
-				c.server.sayToClients(c.player.getName()+"下线了");
 				c.player.setClient(null);
 				Room r =  (Room) c.player.getLocation();
 				//保存人物
@@ -176,5 +205,6 @@ public class Client implements Runnable{
 			c = null;
 		}	
 	}
+	
 
 }

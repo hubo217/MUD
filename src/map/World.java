@@ -164,4 +164,7 @@ public class World implements Runnable{
 	public boolean getThreadLock(){
 		return this.threadLock;
 	}
+	public Object getObjectLock(){
+		return this.ObjectLock;
+	}
 }

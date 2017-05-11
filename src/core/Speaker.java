@@ -11,7 +11,7 @@ import role.Player;
 public class Speaker {
 	private HashMap<String,String> orderList;
 	private World world = World.getWorld();
-	private static Speaker sp = new Speaker();
+	private static Speaker instance = new Speaker();
 	
 	public Speaker(){
 		orderList = new HashMap<String,String>();
@@ -19,9 +19,8 @@ public class Speaker {
 		//系统命令
 		orderList.put("quit",
 				"-quit命令允许你断开与服务器的连接");
-		orderList.put("login",
-				"-login每次连接后必须通过login命令验证身份");
-		
+		orderList.put("map",
+				"-map显示当前地图");		
 		orderList.put("look", "-look命令将会告诉你这个地图的一些景色");
 		orderList.put("say", "-say命令会将你说的话发送给房间里的每一位玩家");
 		orderList.put("go <地点>",
@@ -48,9 +47,7 @@ public class Speaker {
 				"-setDesc允许你设置你角色的自我介绍");
 		orderList.put("shop",
 				"-shop命令将打开商店");
-		
-		orderList.put("未来会有更多",
-				"-更多");		
+
 		
 		//趣味命令
 		orderList.put("kickAss <player>",
@@ -84,5 +81,10 @@ public class Speaker {
 	public Set<String> getOrderList() {
 		return this.orderList.keySet();
 	}
-	
+	public static Speaker getSpeaker(){
+		return instance;
+	}
+	public World getWorld(){
+		return this.world;
+	}
 }

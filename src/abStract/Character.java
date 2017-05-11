@@ -26,11 +26,6 @@ public class Character extends DataObject implements ActiveAble{
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public int getDatabaseRef() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public void sayToPlayer(String msg) {

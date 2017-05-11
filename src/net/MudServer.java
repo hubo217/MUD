@@ -9,18 +9,18 @@ import utils.Console;
 
 public class MudServer {
 	private final int PORT = 999;
-	private static ArrayList<Client> clientList;
+	private static ArrayList<Client> clientList = new ArrayList<Client>();
 	private ServerSocket serverSocket;
-	private Socket connect;
-	private Client client;
+
 	public MudServer() {
-		MudServer.clientList = new ArrayList<Client>();
 	}
 	
 	public static ArrayList<Client> getClientList(){
 		return clientList;
 	}
 	public void start(){
+		Socket connect;
+		Client client;
 		ArrayList<Client> outLineList = new ArrayList<Client>();
 		try {
 			serverSocket = new ServerSocket(PORT);
@@ -28,17 +28,18 @@ public class MudServer {
 			while(true){
 				
 				connect = serverSocket.accept();
-				client = new Client(connect,this);
-				MudServer.clientList.add(client);
+				client = new Client(connect);
+				clientList.add(client);
 				Console.log(connect.getInetAddress()+"客户端连接了");
 				client.start();
 				
 				outLineList.clear();
 				
-				for(Client c : MudServer.clientList){
+				for(Client c : clientList){
 					if(c.getState() == Console.OVER){
 						outLineList.add(c);
 					}
+
 				}
 				clientList.removeAll(outLineList);
 			}
@@ -55,10 +56,14 @@ public class MudServer {
 		}
 		
 	}
-	public void sayToClients(String content){
-		for(Client c : MudServer.clientList){
-			if(c.getState() != Console.ERROR){
+	public static void sayToClients(String content){
+		Console.log("1");
+		for(Client c : clientList){
+			Console.log("2");
+			if(c.getState() == Console.PLAY){
+				Console.log("3");
 				c.sendReply(content);
+				Console.log("4");
 			}
 		}
 	}
