@@ -187,7 +187,6 @@ public class Client implements Runnable{
 	
 //关闭客户端连接
 	public void close(){
-		this.sendReply("你已成功下线");
 		this.state = Console.OVER;
 		Client c = this;
 		MudServer.getClientList().remove(this);
