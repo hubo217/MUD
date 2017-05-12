@@ -5,13 +5,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import DB.DBHelper;
 import utils.Console;
 
 public class MudServer {
 	private final int PORT = 999;
 	private ArrayList<Client> clientList = new ArrayList<Client>();
 	private ServerSocket serverSocket;
-
+	private DBHelper helper = new DBHelper();
 	public MudServer() {
 	}
 	
@@ -55,6 +56,9 @@ public class MudServer {
 			}
 		}
 		
+	}
+	public DBHelper getHelper(){
+		return this.helper;
 	}
 	public void sayToClients(String content){
 		for(Client c : this.clientList){

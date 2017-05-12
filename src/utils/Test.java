@@ -1,6 +1,7 @@
 package utils;
 
 
+import DB.DBHelper;
 import map.God;
 import map.Room;
 import map.World;
@@ -14,5 +15,9 @@ public class Test {
 		god.createWorld();
 		MudServer mudServer = new MudServer();
 		mudServer.start();
+//		DBHelper helper = new DBHelper();
+//		if(helper.login("shichiyu", "test")){
+//			Console.log("true");
+//		}
 	}
 }

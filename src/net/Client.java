@@ -163,14 +163,12 @@ public class Client implements Runnable{
 				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了"
 						+"这里是"+((Room)player.getLocation()).getName());
 				return;
-			}else if(username.equals("test2") && password.equals("test2")){
+			}else if(verifyLogin(username, password)){
 				this.sendReply("登录成功");
 				//读取玩家、创建玩家
-				this.player = World.getWorld().createPlayer("test2", "test2");
-				this.player.setClient(this);
+				this.initPlayer(username);
 				this.state = Console.PLAY;
 				this.passwordConfirmed = true;
-
 				//游戏开始
 				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了"+"\n\r"
 						+"这里是"+((Room)player.getLocation()).getName());
@@ -216,6 +214,18 @@ public class Client implements Runnable{
 			c = null;
 		}	
 	}
-	
+//验证登录
+	private boolean verifyLogin(String name,String passwd){
+		if(mudServer.getHelper().login(name, passwd)){
+			return true;
+		}
+		return false;
+	}
+//创建玩家对象
+	private void initPlayer(String username){
+		this.player = World.getWorld().createPlayer(username, "test2");
+		this.player.setClient(this);
+	}
+
 
 }
