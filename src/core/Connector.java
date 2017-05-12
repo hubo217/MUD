@@ -8,10 +8,10 @@ public class Connector {
 
 	HashMap<String,Room> map  = new HashMap<String,Room>();
 	private void setMap(){
-		map.put("北",null);
-		map.put("南",null);
-		map.put("西",null);
-		map.put("东",null);
+		map.put("north",null);
+		map.put("south",null);
+		map.put("west",null);
+		map.put("east",null);
 	} 
 	public Connector() {
 		this.setMap();

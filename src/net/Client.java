@@ -91,8 +91,9 @@ public class Client implements Runnable{
 	}
 //将字符串发送
 	public void sendReply(String content) {
+		String str = content + "\n\r";
 		try {
-			output.write(content.getBytes("utf-8"));
+			output.write(str.getBytes("utf-8"));
 		} catch (IOException e) {
 			close();
 		}
@@ -141,17 +142,17 @@ public class Client implements Runnable{
 			String password = "";
 			//获得用户名
 			while(username.equals("")){
-				this.sendReply("请输入你的用户名:\n\r");
+				this.sendReply("请输入你的用户名:");
 				username = receiveFrom().trim();
 			}
 			//获得密码
 			while(password.equals("")){
-				this.sendReply("请输入你的密码:\n\r");
+				this.sendReply("请输入你的密码:");
 				password = receiveFrom().trim();
 			}
 			//验证
 			if(username.equals("test") && password.equals("test")){
-				this.sendReply("登录成功\n\r");
+				this.sendReply("登录成功");
 				//读取玩家、创建玩家
 				this.player = World.getWorld().createPlayer("test", "test");
 				this.player.setClient(this);
@@ -159,11 +160,11 @@ public class Client implements Runnable{
 				this.passwordConfirmed = true;
 
 				//游戏开始
-				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了\n\r"
-						+"这里是"+((Room)player.getLocation()).getName()+"\n\r");
+				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了"
+						+"这里是"+((Room)player.getLocation()).getName());
 				return;
 			}else if(username.equals("test2") && password.equals("test2")){
-				this.sendReply("登录成功\n\r");
+				this.sendReply("登录成功");
 				//读取玩家、创建玩家
 				this.player = World.getWorld().createPlayer("test2", "test2");
 				this.player.setClient(this);
@@ -171,11 +172,11 @@ public class Client implements Runnable{
 				this.passwordConfirmed = true;
 
 				//游戏开始
-				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了\n\r"
-						+"这里是"+((Room)player.getLocation()).getName()+"\n\r");
+				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了"+"\n\r"
+						+"这里是"+((Room)player.getLocation()).getName());
 				return;				
 			}else{
-				this.sendReply("(つд⊂)用户名或密码错误\n\r");
+				this.sendReply("(つд⊂)用户名或密码错误");
 			}
 		}
 	}
@@ -184,9 +185,10 @@ public class Client implements Runnable{
 		String str;
 		str = receiveFrom().trim();
 		if(str.equals("quit")){
+			this.sendReply("已成功下线，请关闭终端");
 			this.close();
 		}else if(str.toLowerCase().indexOf("say") == 0){
-			mudServer.sayToClients("<世界>"+this.player.getName()+":"+str.substring(3).trim()+"\n\r");
+			mudServer.sayToClients("<世界>"+this.player.getName()+":"+str.substring(3).trim());
 		}else if(str.toLowerCase().indexOf("setDesc") == 0){
 			this.player.setDescription(str.substring(7).trim());
 		}else if(!str.equals("") || str != null){

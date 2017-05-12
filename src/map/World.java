@@ -116,6 +116,7 @@ public class World implements Runnable{
 		Room r = (Room) World.getWorld().getDataObj(0);
 		p.setLocation(r);
 		p.setRoomId(r.getDatabaseRef());
+		r.addPlayer(p);
 		if(this.playerMap.put(p.getName(), p) == null){
 			World.getWorld().addToWorld(p);
 			return p;

@@ -8,6 +8,7 @@ import java.util.Set;
 import map.Room;
 import map.World;
 import role.Player;
+import utils.Console;
 
 public class Speaker {
 	private HashMap<String,String> orderList;
@@ -74,7 +75,7 @@ public class Speaker {
 				}
 				break;
 			default:
-				p.sayToPlayer("<系统>我听不懂你在说啥" + "\n\r");
+				p.sayToPlayer("<系统>我听不懂你在说啥");
 				break;
 			}
 		}
@@ -84,12 +85,25 @@ public class Speaker {
 		HashMap<String,Room> map = r.getConnector().getHashMap();
 		if(map.get(place) != null){
 			p.moveToDes(map.get(place));
-			p.sayToPlayer("<系统>你来到了" + r.getName() + "\n\r");
+			p.sayToPlayer("<系统>你来到了" + ((Room)p.getLocation()).getName());
+		}else{
+			p.sayToPlayer("<系统>没有找到通往"+ place  +"的道路");
 		}
 	}
 	private void showOnlinePlayer(Player p) {
-		// TODO Auto-generated method stub
-		
+		Room r = (Room) (p.getLocation());
+		int index = 0;
+		String content = "";
+		p.sayToPlayer("<系统>当前在线的用户:");
+		for(Player pl : r.getPlayerList()){
+			index++;
+			if(index % 4 == 0){
+				content = content + pl.getName() + "\n\r";
+			}else{
+				content = content + pl.getName() + "\t";
+			}
+		}
+		p.sayToPlayer(content);	
 	}
 	private void lookAround(Player p) {
 		Room r = (Room) (p.getLocation());
@@ -99,17 +113,20 @@ public class Speaker {
 	private void showMap(Player p) {
 		Room r = (Room) (p.getLocation());
 		HashMap<String,Room> map = r.getConnector().getHashMap();
-		if(map.get("北") != null){
-			p.sayToPlayer("<系统>北------>" + map.get("北").getName() + "\n\r");
+		if(map.get("north") != null){
+			p.sayToPlayer("<系统>北(north)------>" + map.get("north").getName());
 		}
-		if(map.get("南") != null){
-			p.sayToPlayer("<系统>南------>" + map.get("北").getName() + "\n\r");
+		if(map.get("south") != null){
+			p.sayToPlayer("<系统>南(south)------>" + map.get("south").getName());
 		}
-		if(map.get("西") != null){
-			p.sayToPlayer("<系统>西------>" + map.get("北").getName() + "\n\r");
+		if(map.get("west") != null){
+			p.sayToPlayer("<系统>西(west)------->" + map.get("west").getName());
 		}
-		if(map.get("东") != null){
-			p.sayToPlayer("<系统>东------>" + map.get("北").getName() + "\n\r");
+		if(map.get("east") != null){
+			p.sayToPlayer("<系统>东(east)------->" + map.get("east").getName());
+		}
+		if(map.isEmpty()){
+			p.sayToPlayer("<系统>你似乎处于一片虚空之中，周围没有出口");
 		}
 	}
 	public Set<String> getOrderList() {

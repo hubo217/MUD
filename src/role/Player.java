@@ -25,7 +25,6 @@ public class Player extends Character{
 		this.setLocation(r);
 		r.addPlayer(this);
 		this.room_id = r.getDatabaseRef();
-		this.sayToPlayer(((Room)this.getLocation()).getDescription());
 	}
 	public void setRoomId(int id){
 		this.room_id = id;
