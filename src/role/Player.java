@@ -38,5 +38,10 @@ public class Player extends Character{
 		this.client = c;
 		
 	}
+	public void sayToPlayer(String msg) {
+		if(client != null){
+			client.sendReply(msg);
+		}
+	}
 
 }

@@ -2,6 +2,7 @@ package map;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import abStract.Character;
 import abStract.DataObject;
@@ -98,6 +99,9 @@ public class Room extends DataObject{
 	}
 	public Room getConnectorDir(String dir){
 		return this.connector.getRoom(dir);
+	}
+	public Connector getConnector(){
+		return this.connector;
 	}
 	//判断某个玩家是否在房间中：attack方法需要
 	public boolean isPlayerInRoom(Player p){

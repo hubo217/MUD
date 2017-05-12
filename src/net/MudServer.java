@@ -9,14 +9,14 @@ import utils.Console;
 
 public class MudServer {
 	private final int PORT = 999;
-	private static ArrayList<Client> clientList = new ArrayList<Client>();
+	private ArrayList<Client> clientList = new ArrayList<Client>();
 	private ServerSocket serverSocket;
 
 	public MudServer() {
 	}
 	
-	public static ArrayList<Client> getClientList(){
-		return clientList;
+	public ArrayList<Client> getClientList(){
+		return this.clientList;
 	}
 	public void start(){
 		Socket connect;
@@ -28,7 +28,7 @@ public class MudServer {
 			while(true){
 				
 				connect = serverSocket.accept();
-				client = new Client(connect);
+				client = new Client(connect,this);
 				clientList.add(client);
 				Console.log(connect.getInetAddress()+"客户端连接了");
 				client.start();
@@ -56,14 +56,10 @@ public class MudServer {
 		}
 		
 	}
-	public static void sayToClients(String content){
-		Console.log("1");
-		for(Client c : clientList){
-			Console.log("2");
+	public void sayToClients(String content){
+		for(Client c : this.clientList){
 			if(c.getState() == Console.PLAY){
-				Console.log("3");
 				c.sendReply(content);
-				Console.log("4");
 			}
 		}
 	}

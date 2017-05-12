@@ -5,15 +5,13 @@ import map.Room;
 
 public class Connector {
 
-	/*
-	 * Ó¦¸Ã¿ÉÒÔÔÙ¶¨ÒåÆäËûµÄ±ÈÈç¸óÂ¥¡¢µØÏÂÊÒ¡¢ÃÜÊÒµÈ·¿¼ä
-	 */
+
 	HashMap<String,Room> map  = new HashMap<String,Room>();
 	private void setMap(){
-		map.put("±±",null);
-		map.put("¶«",null);
-		map.put("ÄÏ",null);
-		map.put("Î÷",null);
+		map.put("åŒ—",null);
+		map.put("å—",null);
+		map.put("è¥¿",null);
+		map.put("ä¸œ",null);
 	} 
 	public Connector() {
 		this.setMap();
@@ -27,5 +25,8 @@ public class Connector {
 	}
 	public Room getRoom(String dir){
 		return map.get(dir);
+	}
+	public HashMap<String,Room> getHashMap(){
+		return this.map;
 	}
 }

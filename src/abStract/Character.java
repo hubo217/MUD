@@ -5,6 +5,7 @@ import item.Clothes;
 import item.ItemList;
 import item.Weapon;
 import map.Room;
+import net.Client;
 
 public class Character extends DataObject implements ActiveAble{
 	public int id;
@@ -27,13 +28,6 @@ public class Character extends DataObject implements ActiveAble{
 	}
 
 
-	@Override
-	public void sayToPlayer(String msg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void attack(Character enemy) {
 		// TODO Auto-generated method stub
 		
@@ -84,6 +78,13 @@ public class Character extends DataObject implements ActiveAble{
 	public void addItem(Item i) {
 		// TODO Auto-generated method stub
 		this.bag.addItemInBag(i, this);
+	}
+
+
+	@Override
+	public void sayToPlayer(String msg) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
