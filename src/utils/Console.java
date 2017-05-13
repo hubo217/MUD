@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class Console {
 	public static int OVER = 0x1;
@@ -17,11 +18,11 @@ public class Console {
 	public static void log(String content){
 		System.out.println(content);
 	}
-	public static String loadFile(String path) throws FileNotFoundException{
+	public static String loadFile(String path) {
 		File f = new File(path);
 		if(f.exists()){
 			String str = "";
-			FileInputStream input;
+			FileInputStream input = null;
 			try {
 				 String tmp = null;
 				 BufferedReader br = new BufferedReader(new FileReader(f));
@@ -32,9 +33,37 @@ public class Console {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			try {
+				input.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return str;
 		}else{
 			return "";
 		}
+	}
+	public static HashMap<String,String> loadStory(String path) throws IOException{
+		HashMap<String,String> tolk = new HashMap<String,String>();
+		File f = new File(path);
+		if(f.exists()){
+			String str = "";
+			FileInputStream input = null;
+			try {
+				 String tmp = null;
+				 BufferedReader br = new BufferedReader(new FileReader(f));
+				 while((tmp = br.readLine()) != null){
+					 tolk.put(tmp.split("@")[0], tmp.split("@")[1]);
+				 }
+				 return tolk;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			input.close();
+		}else{
+			return null;
+		}
+		return tolk;	
 	}
 }

@@ -114,6 +114,15 @@ public class Room extends DataObject{
 		}
 		return false;
 	}
+	//判断某个npc是否在当前房间
+	public NPC isNPCInRoom(String name){
+		for(NPC npc : this.peopleList){
+			if(npc.getName().equals(name)){
+				return npc;
+			}
+		}
+		return null;
+	}
 	public ArrayList<Player> getPlayerList() {
 		return this.playerList;
 	}

@@ -1,5 +1,7 @@
 package map;
 
+import java.io.File;
+
 import item.Clothes;
 import item.Weapon;
 import role.NPC;
@@ -27,6 +29,7 @@ public class God {
 		//物品
 		//NPC
 		NPC n0 = world.createNPC("ATM", "匿名版的掌管者，但是在这里也不过是npc而已", r0);
+		n0.loadTolk("story" + File.separatorChar + "atm.txt");
 		n0.setClothes(c0);
 		n0.setWeapon(w0);
 	}

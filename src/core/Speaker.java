@@ -1,5 +1,6 @@
 package core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -89,12 +90,26 @@ public class Speaker {
 			case "npc":
 				this.showNPClist(p);
 				break;
+			case "ask":
+				this.askWithNPC(parameter,p);
+				break;
 			default:
 				p.sayToPlayer("我听不懂你在说啥");
 				break;
 			}
 		}
 
+	private void askWithNPC(String parameter, Player p) {
+		if(!parameter.equals("")){
+			String npc = parameter.split(" ")[0].trim();
+			String ask = parameter.split(" ")[1].trim();
+			Room r = (Room) p.getLocation();
+			NPC n= r.isNPCInRoom(npc);
+			if(n != null){
+				n.beAsked(ask, p);
+			}
+		}	
+	}
 	private void showNPClist(Player p) {
 		Room r = (Room) p.getLocation();
 		int index = 0;

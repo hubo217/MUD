@@ -131,10 +131,9 @@ public class Client implements Runnable{
 				+ "|------------------------------|\n\r"
 				);
 		//读取公告
-		try {
-			this.sendReply(Console.loadFile("welcome.txt"));
-		} catch (FileNotFoundException e) {
-		}
+
+		this.sendReply(Console.loadFile("welcome.txt"));
+
 
 		while(!this.passwordConfirmed){
 			String username = "";
