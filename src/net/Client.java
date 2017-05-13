@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import core.Speaker;
 import map.Room;
@@ -136,7 +137,7 @@ public class Client implements Runnable{
 			this.sendReply(Console.loadFile("welcome.txt"));
 		} catch (FileNotFoundException e) {
 		}
-		//密码验证\还没有数据库，暂时不生效
+
 		while(!this.passwordConfirmed){
 			String username = "";
 			String password = "";
@@ -151,24 +152,11 @@ public class Client implements Runnable{
 				password = receiveFrom().trim();
 			}
 			//验证
-			if(username.equals("test") && password.equals("test")){
-				this.sendReply("登录成功");
-				//读取玩家、创建玩家
-				this.player = World.getWorld().createPlayer("test", "test");
-				this.player.setClient(this);
-				this.state = Console.PLAY;
-				this.passwordConfirmed = true;
+			if(verifyLogin(username, password)){
 
-				//游戏开始
-				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了"
-						+"这里是"+((Room)player.getLocation()).getName());
-				return;
-			}else if(verifyLogin(username, password)){
-				this.sendReply("登录成功");
 				//读取玩家、创建玩家
 				this.initPlayer(username);
-				this.state = Console.PLAY;
-				this.passwordConfirmed = true;
+
 				//游戏开始
 				this.sendReply(player.getName() + "从梦中醒来！新的一天开始了"+"\n\r"
 						+"这里是"+((Room)player.getLocation()).getName());
@@ -217,14 +205,22 @@ public class Client implements Runnable{
 //验证登录
 	private boolean verifyLogin(String name,String passwd){
 		if(mudServer.getHelper().login(name, passwd)){
+			this.passwordConfirmed = true;
+			this.sendReply("<系统>登录成功");
 			return true;
 		}
 		return false;
 	}
 //创建玩家对象
 	private void initPlayer(String username){
-		this.player = World.getWorld().createPlayer(username, "test2");
-		this.player.setClient(this);
+		this.player = mudServer.getHelper().loadPlayer("shichiyu");
+		if(this.player != null){
+			this.player.setClient(this);
+			this.state = Console.PLAY;
+			this.sendReply("<系统>人物加载成功");
+		}else{
+			this.sendReply("人物加载失败");
+		}
 	}
 
 

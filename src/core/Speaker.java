@@ -74,12 +74,18 @@ public class Speaker {
 					this.movePlayer(p,parameter);
 				}
 				break;
+			case "myp":
+				this.showMyPoint(p);
+				break;
 			default:
 				p.sayToPlayer("<系统>我听不懂你在说啥");
 				break;
 			}
 		}
 
+	private void showMyPoint(Player p) {
+		
+	}
 	private void movePlayer(Player p,String place) {
 		Room r = (Room) (p.getLocation());
 		HashMap<String,Room> map = r.getConnector().getHashMap();

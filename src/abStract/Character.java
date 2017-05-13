@@ -16,11 +16,13 @@ public class Character extends DataObject implements ActiveAble{
 	public int STR;
 	public int HIT;
 	public int SPD;
+	public int exp;
+	public int level;
 	public int room_id;
 	public ItemList bag;
 	public Weapon weapon;
 	public Clothes clothes;
-	private boolean isFighting;
+	public boolean isFighting;
 	
 	public Character(String name,String des) {
 		super(name,des);
@@ -63,10 +65,31 @@ public class Character extends DataObject implements ActiveAble{
 	}
 
 	@Override
-	public void setPoint(int ack, int def, int hel, int str, int hit, int spd) {
-		// TODO Auto-generated method stub
-		
+	public void setPoint(int hel, int ack, int def, int str, int hit, int spd,int exp,int level) {
+
+		this.HEL = hel;
+		this.ACK = ack;
+		this.DEF = def;
+		this.STR = str;
+		this.HIT = hit;
+		this.SPD = spd;
+		this.exp = exp;
+		this.level = level;
 	}
+//此方法结算力量点数对攻击和速度的影响
+	private void calStr() {
+		//攻击收等级和力量影响
+		this.ACK = (this.STR * 5)/this.level;
+	}
+
+
+	private void updateLevel() {
+		int nextExp = this.level * (this.level + 5) * 10;
+		while(this.exp > nextExp){
+			this.level++;
+		}
+	}
+
 
 	@Override
 	public void pickUpItem(String name) {

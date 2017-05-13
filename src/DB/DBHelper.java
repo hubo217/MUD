@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import map.World;
+import role.Player;
 import utils.Console;
 
 
@@ -14,7 +17,7 @@ public class DBHelper {
 	private String url = "jdbc:mysql://118.190.74.250/mud";
 	private String classname = "com.mysql.jdbc.Driver";
 	private String username = "";
-	private String password = "";//不告诉你
+	private String password = "";//不告诉你=
 	
 	private Connection conn = null;
 	private Statement stmt = null;
@@ -43,19 +46,38 @@ public class DBHelper {
 				if(re.getString(1).equals(passwd)){
 					return true;
 				}
+				re.close();
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
+
 		return false;
 	}
-	
-	private void close(){
+	public Player loadPlayer(String name){
+		Player p = null;
+		String sql = "select * from player where name=?";
+		ResultSet re = null;
 		try {
-			this.conn.close();
+			PreparedStatement pst = conn.prepareStatement(sql);
+			pst.setString(1, name);
+			re = pst.executeQuery();
+			if(re.next()){
+				p = World.getWorld().createPlayer(re.getString(2), re.getString(4));
+				int hel = re.getInt(5);
+				int ack = re.getInt(6);
+				int def = re.getInt(7);
+				int str = re.getInt(8);
+				int hit = re.getInt(9);
+				int spd = re.getInt(10);
+				int exp = re.getInt(11);
+				p.setPoint(hel, ack, def, str, hit, spd, exp, 0);
+			}
+			re.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return p;
 	}
+
 }

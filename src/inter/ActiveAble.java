@@ -14,7 +14,8 @@ public interface ActiveAble {
 	public void pickUpItem(String name);
 	//
 	public void addItem(Item i);
-	public void setPoint(int ack,int def,int hel,int str,int hit,int spd);
+
+	void setPoint(int hel, int ack, int def, int str, int hit, int spd, int exp, int level);
 
 
 }	
