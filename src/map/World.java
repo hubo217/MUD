@@ -2,9 +2,12 @@ package map;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.print.attribute.HashAttributeSet;
 
+import DB.DBHelper;
 import abStract.DataObject;
 import abStract.Item;
 import role.NPC;
@@ -20,7 +23,7 @@ public class World implements Runnable{
 	public ArrayList<DataObject> databaseArray = new ArrayList<DataObject>();
 	public HashMap<String,Player> playerMap = new HashMap<String,Player>();
 	public HashMap<String,NPC> NPCMap = new HashMap<String,NPC>();
-	
+	private Set<String> playersLoggedOn = new TreeSet<String>();
 	public World(){
 		
 		this.saveThread = new Thread(this);
@@ -74,6 +77,7 @@ public class World implements Runnable{
 		return false;
 	}
 	public boolean delFromWorld(DataObject o){
+		Console.log("删除"+o.getDatabaseRef());
 		return databaseArray.remove(o);
 	}
 	public void updateWorld(DataObject o,DataObject newO){
@@ -139,7 +143,7 @@ public class World implements Runnable{
 		if(this.NPCMap.put(npc.getName(), npc) == null){
 			World.getWorld().addToWorld(npc);
 			npc.setLocation(r);
-			npc.moveToDes(r);
+			r.addPeople(npc);
 			return npc;
 		}
 		return npc;
@@ -167,5 +171,31 @@ public class World implements Runnable{
 	}
 	public Object getObjectLock(){
 		return this.ObjectLock;
+	}
+
+	public void savePlayer(Player player) {
+		// TODO Auto-generated method stub
+		this.lockThraed();
+		DBHelper helper = player.getClient().getServer().getHelper();
+		helper.updatePlayer(player);
+		this.unlockThread();
+	}
+	public void savePlayers() {
+		for (Player player : this.getPlayers()) {
+			this.savePlayer(player);
+		}
+	}
+	public boolean addLoggedOn(String name){
+		return this.playersLoggedOn.add(name);
+	}
+	public boolean removeLoggedOn(String name) {
+		// TODO Auto-generated method stub
+		return this.playersLoggedOn.remove(name);
+	}
+	public boolean playerIsLoggedOn(String name){
+		return this.playersLoggedOn.contains(name);
+	}
+	public Set<String> getPlayersLoggedOn(){
+		return this.playersLoggedOn;
 	}
 }

@@ -8,6 +8,7 @@ import abStract.Character;
 import abStract.DataObject;
 import abStract.Item;
 import core.Connector;
+import role.NPC;
 import role.Player;
 import utils.Console;
 
@@ -15,7 +16,7 @@ public class Room extends DataObject{
 	private ArrayList<Room> roomList;
 	private ArrayList<Item> itemList;
 	private ArrayList<Player> playerList;;
-	private ArrayList<Character> peopleList;
+	private ArrayList<NPC> peopleList;
 	private Connector connector;
 	public Room(String name,String des) {
 		super(name,des);
@@ -23,7 +24,7 @@ public class Room extends DataObject{
 		this.roomList = new ArrayList<Room>();
 		this.itemList = new ArrayList<Item>();
 		this.playerList = new ArrayList<Player>();
-		this.peopleList = new ArrayList<Character>();
+		this.peopleList = new ArrayList<NPC>();
 	}
 	//向房间添加物品
 	public boolean addItem(Item i) {
@@ -54,10 +55,10 @@ public class Room extends DataObject{
 		return false;
 	}
 	//添加任务
-	public boolean addPeople(Character c){
+	public boolean addPeople(NPC c){
 		if(this.peopleList.add(c)){
 			
-			if(c instanceof Character){
+			if(c instanceof NPC){
 //				refreshPeople();
 				return true;
 			}
@@ -116,7 +117,9 @@ public class Room extends DataObject{
 	public ArrayList<Player> getPlayerList() {
 		return this.playerList;
 	}
-	
+	public ArrayList<NPC> getPeopeList(){
+		return this.peopleList;
+	}
 	//
 	private void refreshPeople() {
 		for(Character c : this.peopleList){

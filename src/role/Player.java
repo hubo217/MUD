@@ -39,8 +39,11 @@ public class Player extends Character{
 	}
 	public void sayToPlayer(String msg) {
 		if(client != null){
-			client.sendReply(msg);
+			client.sendReply("<系统>" + msg);
 		}
+	}
+	public Client getClient(){
+		return this.client;
 	}
 
 }

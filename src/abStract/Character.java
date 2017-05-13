@@ -109,5 +109,11 @@ public class Character extends DataObject implements ActiveAble{
 		// TODO Auto-generated method stub
 		
 	}
+	public void setWeapon(Weapon w){
+		this.weapon = w;
+	}
+	public void setClothes(Clothes c){
+		this.clothes = c;
+	}
 	
 }

@@ -90,11 +90,15 @@ public class Client implements Runnable{
 	public Player getPlayer(){
 		return this.player;
 	}
+	public MudServer getServer(){
+		return this.mudServer;
+	}
 //将字符串发送
 	public void sendReply(String content) {
 		String str = content + "\n\r";
 		try {
 			output.write(str.getBytes("utf-8"));
+			output.flush();
 		} catch (IOException e) {
 			close();
 		}
@@ -102,14 +106,8 @@ public class Client implements Runnable{
 //获取用户发送的命令
 	public String receiveFrom(){
 		try {
-			int size;
-			StringBuffer request = new StringBuffer(1024);
-			byte[] buffer = new byte[1024];
-			size = input.read(buffer);
-			for (int i = 0; i < size; i++) {
-				request.append((char) buffer[i]);
-			}
-			String str = request.toString();
+			BufferedReader br = new BufferedReader(new InputStreamReader(input));
+			String str = br.readLine();
 			return str.trim();
 		} catch (Exception e) {
 			close();
@@ -145,11 +143,13 @@ public class Client implements Runnable{
 			while(username.equals("")){
 				this.sendReply("请输入你的用户名:");
 				username = receiveFrom().trim();
+				Console.log(username);
 			}
 			//获得密码
 			while(password.equals("")){
 				this.sendReply("请输入你的密码:");
 				password = receiveFrom().trim();
+				Console.log(password);
 			}
 			//验证
 			if(verifyLogin(username, password)){
@@ -174,7 +174,7 @@ public class Client implements Runnable{
 			this.sendReply("已成功下线，请关闭终端");
 			this.close();
 		}else if(str.toLowerCase().indexOf("say") == 0){
-			mudServer.sayToClients("<世界>"+this.player.getName()+":"+str.substring(3).trim());
+			mudServer.sayToClients(this.player.getName()+":"+str.substring(3).trim());
 		}else if(str.toLowerCase().indexOf("setDesc") == 0){
 			this.player.setDescription(str.substring(7).trim());
 		}else if(!str.equals("") || str != null){
@@ -190,15 +190,20 @@ public class Client implements Runnable{
 		mudServer.getClientList().remove(this);
 		if(c != null){
 			if(c.player != null){
+				c.mudServer.sayToClients(c.player.getName() + "下线了");
 				c.player.setClient(null);
 				Room r =  (Room) c.player.getLocation();
-				//保存人物
 				r.removePlayer(c.player);
+				//保存人物
+				World.getWorld().savePlayer(c.player);
+				World.getWorld().removeLoggedOn(c.player.getName());
 				//移除物品
 				
 				//还需要下线、
 				
 			}
+			World.getWorld().playerMap.remove(c.player);
+			World.getWorld().delFromWorld(player);
 			c = null;
 		}	
 	}
@@ -206,18 +211,18 @@ public class Client implements Runnable{
 	private boolean verifyLogin(String name,String passwd){
 		if(mudServer.getHelper().login(name, passwd)){
 			this.passwordConfirmed = true;
-			this.sendReply("<系统>登录成功");
 			return true;
 		}
 		return false;
 	}
 //创建玩家对象
 	private void initPlayer(String username){
-		this.player = mudServer.getHelper().loadPlayer("shichiyu");
+			Console.log("开始加载人物");
+		this.player = mudServer.getHelper().loadPlayer(username);
 		if(this.player != null){
 			this.player.setClient(this);
 			this.state = Console.PLAY;
-			this.sendReply("<系统>人物加载成功");
+			this.sendReply("人物加载成功");
 		}else{
 			this.sendReply("人物加载失败");
 		}
