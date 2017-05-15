@@ -15,6 +15,9 @@ public class Weapon extends Item{
 		super.HIT = hit;
 		super.value = v;
 	}
+	public int getACK(){
+		return this.ACK;
+	}
 	@Override
 	public int compareTo(Item o) {
 		// TODO Auto-generated method stub

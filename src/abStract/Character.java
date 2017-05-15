@@ -76,12 +76,17 @@ public class Character extends DataObject implements ActiveAble{
 		this.exp = exp;
 		this.level = level;
 	}
-//此方法结算力量点数对攻击和速度的影响
-	private void calStr() {
+//此方法结算力量点数以及武器装备对攻击的影响
+	public int getACK() {
 		//攻击收等级和力量影响
-		this.ACK = (this.STR * 5)/this.level;
+		int value =  (this.STR * this.STR)/this.level + weapon.getACK() + this.ACK;
+		return value;
 	}
-
+//此方法结算力量点数以及武器装备对防御的影响
+	public int getDEF(){
+		int value = this.STR * this.level + clothes.getDEF() + this.DEF;
+		return value;
+	}
 
 	private void updateLevel() {
 		int nextExp = this.level * (this.level + 5) * 10;

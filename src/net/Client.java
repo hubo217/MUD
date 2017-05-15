@@ -1,16 +1,11 @@
 package net;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import core.Speaker;
 import map.Room;
@@ -40,7 +35,7 @@ public class Client implements Runnable{
 	@Override
 	public void run() {
 		try{
-			while( this.state != Console.OVER ){
+			while( this.state != ClientState.OVER ){
 				synchronized (speaker.getWorld().getObjectLock()) {
 					while(speaker.getWorld().getThreadLock()){
 						try{
@@ -50,10 +45,10 @@ public class Client implements Runnable{
 						}
 					}
 				}
-				if( this.state == Console.INIT ){
+				if( this.state == ClientState.INIT ){
 					//开始界面
 					this.init();
-				}else if( this.state == Console.PLAY ){
+				}else if( this.state == ClientState.PLAY ){
 					//游戏界面
 					//处理命令
 					this.orderHandler();
@@ -65,7 +60,7 @@ public class Client implements Runnable{
 	}
 
 	public void start() {
-		this.state = Console.INIT;
+		this.state = ClientState.INIT;
 		
 		try {
 			this.output = socket.getOutputStream();
@@ -184,27 +179,58 @@ public class Client implements Runnable{
 	
 //关闭客户端连接
 	public void close(){
-		this.state = Console.OVER;
-		Client c = this;
-		mudServer.getClientList().remove(this);
-		if(c != null){
-			if(c.player != null){
-				c.mudServer.sayToClients(c.player.getName() + "下线了");
-				c.player.setClient(null);
-				Room r =  (Room) c.player.getLocation();
-				r.removePlayer(c.player);
-				//保存人物
-				World.getWorld().savePlayer(c.player);
-				World.getWorld().removeLoggedOn(c.player.getName());
-				//移除物品
-				
-				//还需要下线、
-				
+		try {
+			this.state = ClientState.OVER;
+			this.socket.close();
+			Client c = this;
+			mudServer.getClientList().remove(c);
+			if(c != null){
+				if(c.player != null){
+					//
+					//保存人物
+					World.getWorld().savePlayer(c.player);
+					//从房间移除人物
+					Room r =  (Room) c.player.getLocation();
+					r.removePlayer(c.player);
+					//从hashmap移除人物
+					World.getWorld().playerMap.remove(c.player.getName());
+					//从数组中删除
+					World.getWorld().delFromWorld(player);
+				}
 			}
-			World.getWorld().playerMap.remove(c.player);
-			World.getWorld().delFromWorld(player);
 			c = null;
-		}	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		this.state = Console.OVER;
+//		Client c = this;
+//		mudServer.getClientList().remove(this);
+//		if(c != null){
+//			if(c.player != null){
+//				c.mudServer.sayToClients(c.player.getName() + "下线了");
+//				c.player.setClient(null);
+//				Room r =  (Room) c.player.getLocation();
+//				r.removePlayer(c.player);
+//				//保存人物
+//				
+//				World.getWorld().removeLoggedOn(c.player.getName());
+//				//移除物品
+//				
+//				//还需要下线、
+//				
+//			}
+//			World.getWorld().playerMap.remove(c.player);
+//			World.getWorld().delFromWorld(player);
+//			try {
+//				this.socket.close();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			c = null;
+//		}
+
 	}
 //验证登录
 	private boolean verifyLogin(String name,String passwd){
@@ -220,7 +246,7 @@ public class Client implements Runnable{
 		this.player = mudServer.getHelper().loadPlayer(username);
 		if(this.player != null){
 			this.player.setClient(this);
-			this.state = Console.PLAY;
+			this.state = ClientState.PLAY;
 			this.sendReply("人物加载成功");
 		}else{
 			this.sendReply("人物加载失败");

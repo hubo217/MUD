@@ -20,5 +20,6 @@ public class Test {
 		god.createWorld();
 		MudServer mudServer = new MudServer();
 		mudServer.start();
+
 	}
 }

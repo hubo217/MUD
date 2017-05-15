@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
@@ -59,44 +60,49 @@ public class Speaker {
 		
 	}
 	public synchronized void useCommand(Player p,String txt){
-		String order = txt.substring(0,3).toLowerCase();
-		String parameter = txt.substring(3).trim();
-			switch (order) {
-			case "map":
-				this.showMap(p);
-				break;
-			case "lok":
-				if(!parameter.equals("")){
-					if(world.NPCMap.get(parameter) != null){
-						p.sayToPlayer(world.NPCMap.get(parameter).getDescription());
-					}else if(world.playerMap.get(parameter) != null){
-						p.sayToPlayer(world.playerMap.get(parameter).getDescription());
+			try{
+				String order = txt.substring(0,3).toLowerCase();
+				String parameter = txt.substring(3).trim();
+					switch (order) {
+					case "map":
+						this.showMap(p);
+						break;
+					case "lok":
+						if(!parameter.equals("")){
+							if(world.NPCMap.get(parameter) != null){
+								p.sayToPlayer(world.NPCMap.get(parameter).getDescription());
+							}else if(world.playerMap.get(parameter) != null){
+								p.sayToPlayer(world.playerMap.get(parameter).getDescription());
+							}
+						}else{
+							this.lookAround(p);
+						}
+						break;
+					case "who":
+						this.showOnlinePlayer(p);
+						break;
+					case "mov":
+						if (!parameter.equals("")) {
+							this.movePlayer(p,parameter);
+						}
+						break;
+					case "myp":
+						this.showMyPoint(p);
+						break;
+					case "npc":
+						this.showNPClist(p);
+						break;
+					case "ask":
+						this.askWithNPC(parameter,p);
+						break;
+					default:
+						p.sayToPlayer("不明白你输入的命令呢，输入hlp试试吧");
+						break;
 					}
-				}else{
-					this.lookAround(p);
-				}
-				break;
-			case "who":
-				this.showOnlinePlayer(p);
-				break;
-			case "mov":
-				if (!parameter.equals("")) {
-					this.movePlayer(p,parameter);
-				}
-				break;
-			case "myp":
-				this.showMyPoint(p);
-				break;
-			case "npc":
-				this.showNPClist(p);
-				break;
-			case "ask":
-				this.askWithNPC(parameter,p);
-				break;
-			default:
-				p.sayToPlayer("我听不懂你在说啥");
-				break;
+			}catch (Exception e) {
+				p.sayToPlayer("我听不懂你在说啥=A=");
 			}
+
 		}
 
 	private void askWithNPC(String parameter, Player p) {
@@ -130,9 +136,9 @@ public class Speaker {
 	}
 	private void movePlayer(Player p,String place) {
 		Room r = (Room) (p.getLocation());
-		HashMap<String,Room> map = r.getConnector().getHashMap();
-		if(map.get(place) != null){
-			p.moveToDes(map.get(place));
+		Room newRoom = r.getConnector().getRoom(place);
+		if(newRoom != null){
+			p.moveToDes(newRoom);
 			p.sayToPlayer("你来到了" + ((Room)p.getLocation()).getName());
 		}else{
 			p.sayToPlayer("没有找到通往"+ place  +"的道路");
@@ -160,20 +166,27 @@ public class Speaker {
 	}
 	private void showMap(Player p) {
 		Room r = (Room) (p.getLocation());
-		HashMap<String,Room> map = r.getConnector().getHashMap();
+
+		HashMap<String,String> map = r.getConnector().getHashMap();
+
 		if(map.get("north") != null){
-			p.sayToPlayer("北(north)------>" + map.get("north").getName());
+
+			p.sayToPlayer("北(north)------>" + map.get("north"));
 		}
 		if(map.get("south") != null){
-			p.sayToPlayer("南(south)------>" + map.get("south").getName());
+
+			p.sayToPlayer("南(south)------>" + map.get("south"));
 		}
 		if(map.get("west") != null){
-			p.sayToPlayer("西(west)------->" + map.get("west").getName());
+
+			p.sayToPlayer("西(west)------->" + map.get("west"));
 		}
 		if(map.get("east") != null){
-			p.sayToPlayer("东(east)------->" + map.get("east").getName());
+			
+			p.sayToPlayer("东(east)------->" + map.get("east"));
 		}
 		if(map.isEmpty()){
+
 			p.sayToPlayer("你似乎处于一片虚空之中，周围没有出口");
 		}
 	}

@@ -96,11 +96,15 @@ public class Room extends DataObject{
 	}
 	
 	//设置连接器
-	public void setConnectorDir(String dir,Room room){
+	public void setConnectorDir(String dir,String room){
 		this.connector.setRoom(dir, room);
 	}
 	public Room getConnectorDir(String dir){
-		return this.connector.getRoom(dir);
+		Room r  = World.getWorld().RoomMap.get(this.connector.getRoom(dir));
+		if(r != null){
+			return r;
+		}
+		return null;
 	}
 	public Connector getConnector(){
 		return this.connector;

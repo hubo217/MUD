@@ -104,6 +104,7 @@ public class DBHelper {
 	}
 	public void updatePlayer(Player player) {
 		this.connect();
+		//保存的代码
 		this.close();
 	}
 

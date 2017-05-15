@@ -10,11 +10,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class Console {
-	public static int OVER = 0x1;
-	public static int ERROR = 0x2;
-	public static int INIT = 0x3;
-	public static int PLAY = 0x4;
-	public static boolean ALLOWPASSWD = true;
+
 	public static void log(String content){
 		System.out.println(content);
 	}
@@ -43,6 +39,37 @@ public class Console {
 		}else{
 			return "";
 		}
+	}
+	public static File[] loadFiles(String pathname){
+		File f = new File(pathname);
+		return f.listFiles();
+	}
+	public static HashMap<String,String> loadRoom(File f){
+		HashMap<String,String> room = new HashMap<String,String>();
+		if(f.exists()){
+			String str = "";
+			FileInputStream input = null;
+			try {
+				 String tmp = null;
+				 BufferedReader br = new BufferedReader(new FileReader(f));
+				 while((tmp = br.readLine()) != null){
+					 room.put(tmp.split("@")[0], tmp.split("@")[1]);
+				 }
+				 return room;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				input.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			Console.log("读取房间文件失败");
+			return null;
+		}
+		return room;
 	}
 	public static HashMap<String,String> loadStory(String path) throws IOException{
 		HashMap<String,String> tolk = new HashMap<String,String>();

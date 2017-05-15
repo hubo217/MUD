@@ -23,6 +23,7 @@ public class World implements Runnable{
 	public ArrayList<DataObject> databaseArray = new ArrayList<DataObject>();
 	public HashMap<String,Player> playerMap = new HashMap<String,Player>();
 	public HashMap<String,NPC> NPCMap = new HashMap<String,NPC>();
+	public HashMap<String,Room> RoomMap = new HashMap<String,Room>();
 	private Set<String> playersLoggedOn = new TreeSet<String>();
 	public World(){
 		
@@ -62,6 +63,7 @@ public class World implements Runnable{
 	}
 	
 	private void saveWorld() {
+		Console.log("游戏保存");
 		this.lockThraed();
 			//保存世界的代码
 		
@@ -109,7 +111,10 @@ public class World implements Runnable{
 	}
 	public Room createRoom(String name,String desc){
 		Room r = new Room(name,desc);
-		this.addToWorld(r);
+		if(this.RoomMap.put(r.getName(), r) == null){
+			this.addToWorld(r);
+			return r;
+		}
 		return r;
 	}
 	public Player createPlayer(String name,String des){
@@ -117,12 +122,12 @@ public class World implements Runnable{
 			return null;
 		}
 		Player p = new Player(name, des);
-		Room r = (Room) World.getWorld().getDataObj(0);
+		Room r = (Room) World.getWorld().RoomMap.get("市政中心");
 		p.setLocation(r);
 		p.setRoomId(r.getDatabaseRef());
 		r.addPlayer(p);
 		if(this.playerMap.put(p.getName(), p) == null){
-			World.getWorld().addToWorld(p);
+			this.addToWorld(p);
 			return p;
 		}
 		return null;
@@ -135,13 +140,14 @@ public class World implements Runnable{
 		}
 		return false;
 	}
-	public NPC createNPC(String name,String des,Room r){
+	public NPC createNPC(String name,String des,String room){
 		if(this.nameExists(name)){
 			return null;
 		}
 		NPC npc = new NPC(name,des);
+		Room r = this.RoomMap.get(room);
 		if(this.NPCMap.put(npc.getName(), npc) == null){
-			World.getWorld().addToWorld(npc);
+			this.addToWorld(npc);
 			npc.setLocation(r);
 			r.addPeople(npc);
 			return npc;

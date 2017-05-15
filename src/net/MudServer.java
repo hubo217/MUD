@@ -26,17 +26,15 @@ public class MudServer {
 		try {
 			serverSocket = new ServerSocket(PORT);
 			while(true){
-				
 				connect = serverSocket.accept();
 				client = new Client(connect,this);
-				Console.log(connect.getInetAddress()+"客户端连接了");
 				client.start();
 				clientList.add(client);
 				
 				outLineList.clear();
 				
 				for(Client c : clientList){
-					if(c.getState() == Console.OVER){
+					if(c.getState() == ClientState.OVER){
 						outLineList.add(c);
 					}
 
@@ -61,14 +59,14 @@ public class MudServer {
 	}
 	public void sayToClients2(String content){
 		for(Client c : this.clientList){
-			if(c.getState() == Console.PLAY){
+			if(c.getState() == ClientState.PLAY){
 				c.sendReply(content);
 			}
 		}
 	}
 	public void sayToClients(String content){
 		for(Client c : this.clientList){
-			if(c.getState() == Console.PLAY){
+			if(c.getState() == ClientState.PLAY){
 				c.sendReply("<系统>"+content);
 			}
 		}

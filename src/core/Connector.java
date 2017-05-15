@@ -2,31 +2,35 @@ package core;
 
 import java.util.HashMap;
 import map.Room;
+import map.World;
 
 public class Connector {
 
 
-	HashMap<String,Room> map  = new HashMap<String,Room>();
-	private void setMap(){
-		map.put("north",null);
-		map.put("south",null);
-		map.put("west",null);
-		map.put("east",null);
-	} 
+	HashMap<String,String> map  = new HashMap<String,String>();
+//	private void setMap(){
+//		map.put("north",null);
+//		map.put("south",null);
+//		map.put("west",null);
+//		map.put("east",null);
+//	} 
 	public Connector() {
-		this.setMap();
+//		this.setMap();
 	}
-	public void setRoom(String dir,Room des){
+	public void setRoom(String dir,String roomName){
 		if(map.containsKey(dir)){
-			map.replace(dir, des);
+			map.replace(dir, roomName);
 		}else{
-			map.put(dir, des);		
+			map.put(dir, roomName);		
 		}
 	}
 	public Room getRoom(String dir){
-		return map.get(dir);
+		if(map.get(dir) != null){
+			return World.getWorld().RoomMap.get(map.get(dir));
+		}
+		return null;
 	}
-	public HashMap<String,Room> getHashMap(){
+	public HashMap<String,String> getHashMap(){
 		return this.map;
 	}
 }
