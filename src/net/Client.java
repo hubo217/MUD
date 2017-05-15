@@ -55,7 +55,7 @@ public class Client implements Runnable{
 				}
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			this.state = ClientState.ERROR;
 		}
 	}
 
@@ -95,6 +95,7 @@ public class Client implements Runnable{
 			output.write(str.getBytes("utf-8"));
 			output.flush();
 		} catch (IOException e) {
+			this.state = ClientState.ERROR;
 			close();
 		}
 	}
@@ -105,6 +106,7 @@ public class Client implements Runnable{
 			String str = br.readLine();
 			return str.trim();
 		} catch (Exception e) {
+			this.state = ClientState.ERROR;
 			close();
 		}
 		return "";
@@ -129,21 +131,23 @@ public class Client implements Runnable{
 
 		this.sendReply(Console.loadFile("welcome.txt"));
 
-
 		while(!this.passwordConfirmed){
 			String username = "";
 			String password = "";
+			
 			//获得用户名
 			while(username.equals("")){
+				
 				this.sendReply("请输入你的用户名:");
 				username = receiveFrom().trim();
-				Console.log(username);
 			}
 			//获得密码
+
 			while(password.equals("")){
+
 				this.sendReply("请输入你的密码:");
 				password = receiveFrom().trim();
-				Console.log(password);
+
 			}
 			//验证
 			if(verifyLogin(username, password)){
@@ -164,16 +168,18 @@ public class Client implements Runnable{
 	private void orderHandler(){
 		String str;
 		str = receiveFrom().trim();
-		if(str.equals("quit")){
-			this.sendReply("已成功下线，请关闭终端");
-			this.close();
-		}else if(str.toLowerCase().indexOf("say") == 0){
-			mudServer.sayToClients(this.player.getName()+":"+str.substring(3).trim());
-		}else if(str.toLowerCase().indexOf("setDesc") == 0){
-			this.player.setDescription(str.substring(7).trim());
-		}else if(!str.equals("") || str != null){
-//			this.player.sayToPlayer("test");
-			this.speaker.useCommand(this.player,str);
+		if(!str.equals("") || str != null){
+			if(str.equals("quit")){
+				this.sendReply("已成功下线，请关闭终端");
+				this.close();
+			}else if(str.toLowerCase().indexOf("say") == 0){
+				mudServer.sayToClients(this.player.getName()+":"+str.substring(3).trim());
+			}else if(str.toLowerCase().indexOf("setDesc") == 0){
+				this.player.setDescription(str.substring(7).trim());
+			}else{
+	//			this.player.sayToPlayer("test");
+				this.speaker.useCommand(this.player,str);
+			}
 		}
 	}
 	

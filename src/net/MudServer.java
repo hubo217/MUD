@@ -28,13 +28,13 @@ public class MudServer {
 			while(true){
 				connect = serverSocket.accept();
 				client = new Client(connect,this);
-				client.start();
 				clientList.add(client);
+				client.start();
 				
 				outLineList.clear();
 				
 				for(Client c : clientList){
-					if(c.getState() == ClientState.OVER){
+					if(c.getState() == ClientState.OVER || c.getState() == ClientState.ERROR){
 						outLineList.add(c);
 					}
 

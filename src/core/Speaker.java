@@ -73,6 +73,8 @@ public class Speaker {
 								p.sayToPlayer(world.NPCMap.get(parameter).getDescription());
 							}else if(world.playerMap.get(parameter) != null){
 								p.sayToPlayer(world.playerMap.get(parameter).getDescription());
+							}else{
+								return;
 							}
 						}else{
 							this.lookAround(p);
@@ -189,6 +191,7 @@ public class Speaker {
 
 			p.sayToPlayer("你似乎处于一片虚空之中，周围没有出口");
 		}
+		return;
 	}
 	public Set<String> getOrderList() {
 		return this.orderList.keySet();
