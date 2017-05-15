@@ -1,0 +1,7 @@
+name@rpg
+desc@被日屁股神教奉为神器的武器
+ack@99
+def@0
+spd@-5
+hit@3
+val@10

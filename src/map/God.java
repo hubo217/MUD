@@ -6,7 +6,6 @@ import java.util.HashMap;
 import item.Clothes;
 import item.Weapon;
 import role.NPC;
-import role.Player;
 import utils.Console;
 
 public class God {
@@ -18,7 +17,7 @@ public class God {
 		//房间
 		for(File f :Console.loadFiles("room")){
 			if(!f.isDirectory()){
-				HashMap<String,String> map = Console.loadRoom(f);
+				HashMap<String,String> map = Console.loadFromFile(f);
 				Room r = World.getWorld().createRoom(map.get("name"), map.get("desc"));
 				if(map.get("south") != null){
 					r.setConnectorDir("south", map.get("south"));
@@ -42,9 +41,11 @@ public class God {
 		Clothes c0 = new Clothes("什么都没穿", "光着身子裸着腚");
 		//物品
 		//NPC
-		NPC n0 = world.createNPC("ATM", "匿名版的掌管者，但是在这里也不过是npc而已", "市政中心");
-		n0.loadTolk("story" + File.separatorChar + "atm.txt");
-		n0.setClothes(c0);
-		n0.setWeapon(w0);
+		for(File f :Console.loadFiles("npc")){
+			if(!f.isDirectory()){
+				HashMap<String,String> map = Console.loadFromFile(f);
+				NPC npc = World.getWorld().createNPC(map.get("name"), map.get("desc"), map.get("place"));
+			}
+		}
 	}
 }

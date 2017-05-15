@@ -1,10 +1,8 @@
 package abStract;
 
 import inter.DataItem;
-import utils.Console;
 
 public abstract class DataObject implements DataItem {
-//DateObject是游戏中基础数据类型，所有的物品都应该继承它，类似于Minecreaft中的Block
 	private static final long serialVersionUID = 1L;
 	public int databaseRef;
 	public DataObject location;

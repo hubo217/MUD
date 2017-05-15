@@ -1,8 +1,6 @@
 package map;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
 import abStract.Character;
 import abStract.DataObject;
@@ -10,7 +8,6 @@ import abStract.Item;
 import core.Connector;
 import role.NPC;
 import role.Player;
-import utils.Console;
 
 public class Room extends DataObject{
 	private ArrayList<Room> roomList;

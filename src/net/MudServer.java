@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import DB.DBHelper;
-import utils.Console;
 
 public class MudServer {
 	private final int PORT = 999;
@@ -67,7 +66,7 @@ public class MudServer {
 	public void sayToClients(String content){
 		for(Client c : this.clientList){
 			if(c.getState() == ClientState.PLAY){
-				c.sendReply("<系统>"+content);
+				c.sendReply("<聊天>"+content);
 			}
 		}
 	}

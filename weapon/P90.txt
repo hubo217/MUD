@@ -1,0 +1,7 @@
+name@P90
+desc@rush B,No stop！
+ack@10
+def@0
+spd@10
+hit@23
+val@29

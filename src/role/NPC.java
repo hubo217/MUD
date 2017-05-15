@@ -1,6 +1,5 @@
 package role;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -26,10 +25,13 @@ public class NPC extends Character{
 		}
 	}
 	public void beAsked(String s,Player p){
-		if(tolk.get(s) != null){
-			p.sayToPlayer(this.getName() + "说:" + tolk.get(s));
-		}else{
-			p.sayToPlayer(this.getName() + "说:" + "走开走开");
-		}
+		String content = this.getName() + "说:" + "走开走开";
+		if(tolk != null){
+			if(tolk.get(s) != null){
+				content = this.getName() + "说:" + tolk.get(s);
+			}
+		}	
+		p.sayToPlayer(content);
+		
 	}
 }

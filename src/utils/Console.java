@@ -3,10 +3,8 @@ package utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class Console {
@@ -25,6 +23,7 @@ public class Console {
 				 while((tmp = br.readLine()) != null){
 					 str = str + tmp + "\r\n";
 				 }
+				 br.close();
 				 return str;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -44,18 +43,19 @@ public class Console {
 		File f = new File(pathname);
 		return f.listFiles();
 	}
-	public static HashMap<String,String> loadRoom(File f){
-		HashMap<String,String> room = new HashMap<String,String>();
+	@SuppressWarnings("null")
+	public static HashMap<String,String> loadFromFile(File f){
+		HashMap<String,String> map = new HashMap<String,String>();
 		if(f.exists()){
-			String str = "";
 			FileInputStream input = null;
 			try {
 				 String tmp = null;
 				 BufferedReader br = new BufferedReader(new FileReader(f));
 				 while((tmp = br.readLine()) != null){
-					 room.put(tmp.split("@")[0], tmp.split("@")[1]);
+					 map.put(tmp.split("@")[0], tmp.split("@")[1]);
 				 }
-				 return room;
+				 br.close();
+				 return map;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -66,10 +66,10 @@ public class Console {
 				e.printStackTrace();
 			}
 		}else{
-			Console.log("读取房间文件失败");
+			Console.log("读取文件失败");
 			return null;
 		}
-		return room;
+		return map;
 	}
 	public static HashMap<String,String> loadStory(String path) throws IOException{
 		HashMap<String,String> tolk = new HashMap<String,String>();

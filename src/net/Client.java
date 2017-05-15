@@ -95,8 +95,7 @@ public class Client implements Runnable{
 			output.write(str.getBytes("utf-8"));
 			output.flush();
 		} catch (IOException e) {
-			this.state = ClientState.ERROR;
-			close();
+			this.state = ClientState.OVER;
 		}
 	}
 //获取用户发送的命令
@@ -106,7 +105,7 @@ public class Client implements Runnable{
 			String str = br.readLine();
 			return str.trim();
 		} catch (Exception e) {
-			this.state = ClientState.ERROR;
+			this.state = ClientState.OVER;
 			close();
 		}
 		return "";
@@ -167,20 +166,22 @@ public class Client implements Runnable{
 //系统命令直接由服务器处理，然后再转交演讲者类处理
 	private void orderHandler(){
 		String str;
-		str = receiveFrom().trim();
-		if(!str.equals("") || str != null){
-			if(str.equals("quit")){
-				this.sendReply("已成功下线，请关闭终端");
-				this.close();
-			}else if(str.toLowerCase().indexOf("say") == 0){
-				mudServer.sayToClients(this.player.getName()+":"+str.substring(3).trim());
-			}else if(str.toLowerCase().indexOf("setDesc") == 0){
-				this.player.setDescription(str.substring(7).trim());
+		str = receiveFrom();
+		if(!str.equals("")){
+			str = str.trim();
+			//遇到/才解释为命令
+			if(str.indexOf("/") == 0){
+				if(str.equals("/quit")){
+					this.sendReply("已成功下线，请关闭终端");
+					this.close();
+				}else{
+					this.speaker.useCommand(this.player,str);
+				}
 			}else{
-	//			this.player.sayToPlayer("test");
-				this.speaker.useCommand(this.player,str);
+				mudServer.sayToClients(this.player.getName()+":"+str);
 			}
 		}
+
 	}
 	
 //关闭客户端连接
@@ -209,33 +210,6 @@ public class Client implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		this.state = Console.OVER;
-//		Client c = this;
-//		mudServer.getClientList().remove(this);
-//		if(c != null){
-//			if(c.player != null){
-//				c.mudServer.sayToClients(c.player.getName() + "下线了");
-//				c.player.setClient(null);
-//				Room r =  (Room) c.player.getLocation();
-//				r.removePlayer(c.player);
-//				//保存人物
-//				
-//				World.getWorld().removeLoggedOn(c.player.getName());
-//				//移除物品
-//				
-//				//还需要下线、
-//				
-//			}
-//			World.getWorld().playerMap.remove(c.player);
-//			World.getWorld().delFromWorld(player);
-//			try {
-//				this.socket.close();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			c = null;
-//		}
 
 	}
 //验证登录

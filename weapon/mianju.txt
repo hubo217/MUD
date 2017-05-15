@@ -1,0 +1,7 @@
+name@石像鬼面具
+desc@jojo，我不做人啦！
+ack@77
+def@10
+spd@10
+hit@5
+val@73

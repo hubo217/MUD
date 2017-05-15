@@ -1,0 +1,3 @@
+name@ATM
+desc@匿名版的掌管者，但是在这里也不过是npc而已
+place@市政中心

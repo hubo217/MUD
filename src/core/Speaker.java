@@ -1,17 +1,12 @@
 package core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.Set;
 
 import map.Room;
 import map.World;
 import role.NPC;
 import role.Player;
-import utils.Console;
 
 public class Speaker {
 	private HashMap<String,String> orderList;
@@ -61,62 +56,51 @@ public class Speaker {
 	}
 	public synchronized void useCommand(Player p,String txt){
 			try{
-				String order = txt.substring(0,3).toLowerCase();
-				String parameter = txt.substring(3).trim();
-					switch (order) {
-					case "map":
-						this.showMap(p);
-						break;
-					case "lok":
-						if(!parameter.equals("")){
-							if(world.NPCMap.get(parameter) != null){
-								p.sayToPlayer(world.NPCMap.get(parameter).getDescription());
-							}else if(world.playerMap.get(parameter) != null){
-								p.sayToPlayer(world.playerMap.get(parameter).getDescription());
-							}else{
-								return;
-							}
+				String[] order = txt.split(" ");
+				if(order[0].equals("/who")){
+					this.showOnlinePlayer(p);
+				}
+				if(order[0].equals("/look")){
+					if(!order[1].equals("")){
+						if(world.NPCMap.get(order[1]) != null){
+							p.sayToPlayer(world.NPCMap.get(order[1]).getDescription());
+						}else if(world.playerMap.get(order[1]) != null){
+							p.sayToPlayer(world.playerMap.get(order[1]).getDescription());
 						}else{
-							this.lookAround(p);
+							return;
 						}
-						break;
-					case "who":
-						this.showOnlinePlayer(p);
-						break;
-					case "mov":
-						if (!parameter.equals("")) {
-							this.movePlayer(p,parameter);
-						}
-						break;
-					case "myp":
-						this.showMyPoint(p);
-						break;
-					case "npc":
-						this.showNPClist(p);
-						break;
-					case "ask":
-						this.askWithNPC(parameter,p);
-						break;
-					default:
-						p.sayToPlayer("不明白你输入的命令呢，输入hlp试试吧");
-						break;
+					}else{
+						this.lookAround(p);				
 					}
+				}
+				if(order[0].equals("/map")){
+					this.showMap(p);
+				}
+				if(order[0].equals("/move")){
+					if (!order[1].equals("")) {
+						this.movePlayer(p,order[1]);
+					}
+				}
+				if(order[0].equals("/npc")){
+					this.showNPClist(p);
+				}
+				if(order[0].equals("/ask")){
+					if(!order[1].equals("")&&!order[2].equals("")){
+						this.askWithNPC(order[1],order[2],p);
+					}
+				}
 			}catch (Exception e) {
-				p.sayToPlayer("我听不懂你在说啥=A=");
+				p.sayToPlayer("不明白你输入的命令呢，输入/help试试吧");
 			}
 
 		}
 
-	private void askWithNPC(String parameter, Player p) {
-		if(!parameter.equals("")){
-			String npc = parameter.split(" ")[0].trim();
-			String ask = parameter.split(" ")[1].trim();
+	private void askWithNPC(String object,String content, Player p) {
 			Room r = (Room) p.getLocation();
-			NPC n= r.isNPCInRoom(npc);
+			NPC n= r.isNPCInRoom(object);
 			if(n != null){
-				n.beAsked(ask, p);
+				n.beAsked(content, p);
 			}
-		}	
 	}
 	private void showNPClist(Player p) {
 		Room r = (Room) p.getLocation();
